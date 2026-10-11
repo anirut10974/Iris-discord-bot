@@ -1,0 +1,26 @@
+{
+  "name": "irisproject_discordbot14",
+  "version": "1.0.0",
+  "description": "Discord bot for server management with Discord.js v14",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "deploy": "node deploy-commands.js",
+    "clear-all": "node clear-all.js",
+    "clear-commands": "node clear-commands.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "discord.js"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/genai": "^2.3.0",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3"
+  }
+}
