@@ -1,11 +1,7 @@
-const dns = require('node:dns');
-dns.setDefaultResultOrder('ipv4first');
-const http = require('http');
-http.createServer((req, res) => res.end('Iris Bot is Alive!')).listen(process.env.PORT || 3000);
-const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
-const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
+const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
+const dotenv = require('dotenv');
 
 dotenv.config();
 const config = require('./src/config');
@@ -33,7 +29,6 @@ client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, 'src/commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-
 for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
@@ -45,7 +40,6 @@ for (const file of commandFiles) {
 
 const eventsPath = path.join(__dirname, 'src/events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
-
 for (const file of eventFiles) {
     const filePath = path.join(eventsPath, file);
     const event = require(filePath);
@@ -57,20 +51,8 @@ for (const file of eventFiles) {
     // console.log(`Loaded event: ${event.name}`);
 }
 
-// เปิดระบบดักจับ Error และ Debug ของ Discord
-client.on('debug', (info) => console.log(`[DISCORD DEBUG]: ${info}`));
+// ดักจับ Error ร้ายแรงที่อาจทำให้ระบบล่ม (แนะนำให้คงไว้สำหรับ Production)
 client.on('error', (error) => console.error(`[DISCORD ERROR]:`, error));
 
-// 📌 เพิ่ม 2 บรรทัดนี้ เพื่อเช็คว่าโดน Cloudflare ของ Discord บล็อกหรือเปล่า
-client.rest.on('rateLimited', (info) => console.log(`[REST LIMIT]:`, info));
-client.rest.on('invalidRequestWarning', (info) => console.log(`[REST WARNING]:`, info));
-
-console.log("กำลังส่ง Token เพื่อเชื่อมต่อกับเซิร์ฟเวอร์ Discord...");
-
-client.login(config.bot.token)
-    .then(() => {
-        console.log("✅ ส่งคำสั่งล็อกอินสำเร็จ! (กำลังรอสถานะ Ready)");
-    })
-    .catch((error) => {
-        console.error("❌ ล็อกอินล้มเหลว:", error);
-    });
+// เริ่มการทำงานของบอท
+client.login(config.bot.token);
